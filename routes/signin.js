@@ -12,21 +12,24 @@ router.post('/', (req, res, next) => {
         !req.body.password
     ) {
         res.status(404);
-        res.send('Cant signin');
-    } {
+        res.send('Cant Signin.');
+    }
+    else {
         users.forEach(function (user) {
             if (
                 user.username === req.body.username &&
                 user.password === req.body.password
             ) {
                 req.session.user = user;
-                res.send('login success');
+                res.redirect('/content');
+                return;
             }
         });
-        res.status(401);
-        res.render('signin', { message: 'the username or password invalid.' });
+        res.render('signin', { message: 'the username or password is invalid.' })
     }
 })
+
+
 
 
 module.exports = router;

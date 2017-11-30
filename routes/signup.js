@@ -13,22 +13,37 @@ router.post('/', (req, res) => {
     ) {
         res.status(404);
         res.send('Cant signup');
-    } {
-        users.forEach(function (user) {
-            if (
-                user.email === req.body.email
-            ) {
-                res.render('signup', { message: 'the email is already in use.' });
-            }
-        });
-        var newUser = {
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
-        }
-        users.push(newUser);
-        res.redirect('/signin');
+        return;
     }
+
+    users.forEach(function (user) {
+        if (
+            user.username === req.body.username &&
+            user.email === req.body.email
+        ) {
+            res.render('signup', { message: 'the username or email is already in use.' });
+            return;
+        }
+        else if (
+            user.username === req.body.username
+        ) {
+            res.render('signup', { message: 'the username is already in use.' });
+            return;
+        }
+        else if (
+            user.email === req.body.email
+        ) {
+            res.render('signup', { message: 'the email is already in use.' });
+            return;
+        }
+    });
+    var newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+    }
+    users.push(newUser);
+    res.redirect('/signin');
 });
 
 module.exports = router;
