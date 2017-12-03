@@ -1,5 +1,5 @@
-var router = require('express').Router();
-
+var express = require('express');
+var router = express.Router();
 
 router.use('/', (req, res, next) => {
     if(!req.session.user) {
@@ -9,10 +9,11 @@ router.use('/', (req, res, next) => {
         next();
     }
 });
-
 router.get('/', (req, res) => {
-    res.render('content', {name: req.session.user.name});
+    req.session.destroy(function() {
+        console.log('User Logouted.');
+    });
+    res.redirect('/signin');
 });
-
 
 module.exports = router;

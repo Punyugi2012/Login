@@ -15,17 +15,21 @@ router.post('/', (req, res, next) => {
         res.send('Cant Signin.');
     }
     else {
-        users.forEach(function (user) {
+        var found = false;
+        for(var i = 0; i < users.length; i++) {
             if (
-                user.username === req.body.username &&
-                user.password === req.body.password
+                users[i].username === req.body.username &&
+                users[i].password === req.body.password
             ) {
-                req.session.user = user;
+                req.session.user = users[i];
                 res.redirect('/content');
-                return;
-            }
-        });
-        res.render('signin', { message: 'the username or password is invalid.' })
+                found = true;
+                break;
+            }   
+        }
+        if(!found) {
+            res.render('signin', { message: 'the username or password is invalid.' });
+        }
     }
 })
 
