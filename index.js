@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(session({ secret: "Your secret key", cookie: { maxAge: 6000 }, resave: true, saveUninitialized: true }));
+app.use(session({ secret: "Your secret key", cookie: { maxAge: Infinity }, resave: true, saveUninitialized: true }));
 app.use('/bootstrap', express.static(`${__dirname}/node_modules/bootstrap/dist`));
 app.use('/jquery', express.static(`${__dirname}/node_modules/jquery/dist`));
 app.use('/popper.js', express.static(`${__dirname}/node_modules/popper.js/dist/umd`));
@@ -34,7 +34,4 @@ app.all('*', (req, res) => {
     res.send('Not Found.');
 })
 
-app.listen('4400', () => {
-    console.log('Server Started Port 4400.');
-})
-
+module.exports = app;
