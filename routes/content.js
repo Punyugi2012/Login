@@ -1,5 +1,5 @@
 var router = require('express').Router();
-
+var contacts = require('../database/contacts.js');
 
 router.use('/', (req, res, next) => {
     if(!req.session.user) {
@@ -11,7 +11,7 @@ router.use('/', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    res.render('content', {name: req.session.user.name});
+    res.render('content', {contacts: contacts, user: req.session.user});
 });
 
 
