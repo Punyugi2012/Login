@@ -51,7 +51,7 @@
                             <p>Phone: <%=contacts[i].phone%></p>
                             <p>Email: <%=contacts[i].email%></p>
                             <span class="option">
-                                <button class="btn btn-warning edit_contact" data-toggle="modal" data-target="#edit_contact" data-id="<%=contacts[i].id%>">Edit</button>
+                                <button class="btn btn-warning edit_contact" data-toggle="modal" data-target="#edit_contact" data-id="<%=contacts[i].id%>" data-firstn="<%=contacts[i].first_name%>" data-lastn="<%=contacts[i].last_name%>" data-phone="<%=contacts[i].phone%>" data-email="<%=contacts[i].email%>">Edit</button>
                                 <button class="btn btn-danger delete_contact" data-toggle="modal" data-target="#delete_contact" data-id="<%=contacts[i].id%>">Delete</button>
                             </span>
                         </li>
@@ -69,13 +69,30 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                <form method="POST" id="edit">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit_firstn">Firstname:</label>
+                            <input type="text" name="edit_firstn" id="edit_firstn" class="form-control" placeholder="firstname" required/> 
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_lastn">Lastname:</label>
+                            <input type="text" name="edit_lastn" id="edit_lastn" class="form-control" placeholder="lastname" required/> 
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_phone">Phone:</label>
+                            <input type="text" name="edit_phone" id="edit_phone" class="form-control" placeholder="phone" required/> 
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_email">Email:</label>
+                            <input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="email" required/> 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary check_phone_edit">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -129,7 +146,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary check_phone_create">Save</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -141,13 +158,22 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#id button[type=submit]').click(function() {
-                if($('#phone').val().length < 10) {
+            $('.check_phone_create').click(function() {
+                if($('#phone').val().length === 10) {
+                    return true;
+                }
+                else {
                     confirm('You must to put the phone number correctly.');
                     return false;
                 }
-                else {
+            });
+            $('.check_phone_edit').click(function() {
+                if($('#edit_phone').val().length === 10) {
                     return true;
+                }
+                else {
+                    confirm('You must to put the phone number correctly.');
+                    return false;
                 }
             });
             $('.modal').on('hide.bs.modal', function (e) {
@@ -155,6 +181,15 @@
             })
             $('.delete_contact').click(function() {
                 $('#delete').attr('action', '/contacts/' + $(this).data('id'));
+            });
+            $('.edit_contact').click(function() {
+                $('#edit').attr('action', '/contacts/' + $(this).data('id'));
+            });
+            $('.edit_contact').click(function() {
+                $('#edit_firstn').val($(this).data('firstn'));
+                $('#edit_lastn').val($(this).data('lastn'));
+                $('#edit_phone').val($(this).data('phone'));
+                $('#edit_email').val($(this).data('email'));
             });
         });
     </script>
