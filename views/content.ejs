@@ -51,8 +51,8 @@
                             <p>Phone: <%=contacts[i].phone%></p>
                             <p>Email: <%=contacts[i].email%></p>
                             <span class="option">
-                                <button class="btn btn-warning" data-toggle="modal" data-target="#edit_contact">Edit</button>
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#delete_contact">Delete</button>
+                                <button class="btn btn-warning edit_contact" data-toggle="modal" data-target="#edit_contact" data-id="<%=contacts[i].id%>">Edit</button>
+                                <button class="btn btn-danger delete_contact" data-toggle="modal" data-target="#delete_contact" data-id="<%=contacts[i].id%>">Delete</button>
                             </span>
                         </li>
                     <%}%>
@@ -92,7 +92,9 @@
                     Are You Sure?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Sure</button>
+                    <form method="POST" id="delete">
+                        <button type="submit" class="btn btn-primary">Sure</button>
+                    </form>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -107,7 +109,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form action="/contacts" method="POST" id="add">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="first_name">Firstname:</label>
@@ -139,14 +141,20 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('button[type=submit]').click(function() {
-                if($('#phone').val.length < 10) {
+            $('#id button[type=submit]').click(function() {
+                if($('#phone').val().length < 10) {
                     confirm('You must to put the phone number correctly.');
                     return false;
                 }
                 else {
                     return true;
                 }
+            });
+            $('.modal').on('hide.bs.modal', function (e) {
+                $('#add')[0].reset();
+            })
+            $('.delete_contact').click(function() {
+                $('#delete').attr('action', '/contacts/' + $(this).data('id'));
             });
         });
     </script>

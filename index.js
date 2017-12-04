@@ -5,6 +5,7 @@ var signupRouter = require('./routes/signup.js');
 var session = require('express-session');
 var contentRouter = require('./routes/content.js');
 var logoutRouter = require('./routes/logout.js');
+var contactRouter = require('./routes/contact.js');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/signin', signinRouter);
 app.use('/signup', signupRouter);
 app.use('/content', contentRouter);
 app.use('/logout', logoutRouter);
+app.use('/contacts', contactRouter);
 
 app.all('*', (req, res) => {
     res.status(404);
