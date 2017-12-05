@@ -5,23 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>content</title>
+    <title>profile</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <style>
         .container-fluid {
             margin-top: 90px;
         }
 
-        .card-header .input-group {
-            width: 50%;
+        .card-header a {
+            width: 10%;
         }
+
         li {
             position: relative;
         }
+
         .option {
             position: absolute;
-            top:5px;
-            right:5px;
+            top: 5px;
+            right: 5px;
         }
     </style>
 </head>
@@ -30,10 +32,11 @@
     <nav class="navbar fixed-top navbar-light bg-light justify-content-between">
         <span>
             <a class="navbar-brand" href="#">CONTACT LIST</a>
-            <button data-toggle="modal" data-target="#add_contact" class="btn btn-info">Add</button>
         </span>
         <span>
-            <span>Hi, <%=user.name%></span>
+            <span>Hi,
+                <%=user.name%>
+            </span>
             <a class="btn btn-primary" href="/logout">Logout</a>
         </span>
     </nav>
@@ -41,28 +44,31 @@
         <div class="card">
             <div class="card-header">
                 <span>Contact List</span>
-                <form action="/contacts" method="GET" id="search">
-                    <div class="input-group float-right">
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="submit">Go!</button>
-                        </span>
-                        <input type="text" name="search" class="form-control" placeholder="search by name">
-                    </div>
-                </form>
+                <a href="/content" class="btn btn-primary float-right">Back</a>
             </div>
             <div class="card-body">
+                <p>Found: <%=contacts.length%> contact</p>
                 <div class="list-group">
                     <%for(var i = 0; i < contacts.length; i++) {%>
                         <li class="list-group-item">
-                            <h3 class="text-center"><%=contacts[i].first_name%> <%=contacts[i].last_name%></h3>
-                            <p>Phone: <%=contacts[i].phone%></p>
-                            <p>Email: <%=contacts[i].email%></p>
+                            <h3 class="text-center">
+                                <%=contacts[i].first_name%>
+                                    <%=contacts[i].last_name%>
+                            </h3>
+                            <p>Phone:
+                                <%=contacts[i].phone%>
+                            </p>
+                            <p>Email:
+                                <%=contacts[i].email%>
+                            </p>
                             <span class="option">
-                                <button class="btn btn-warning edit_contact" data-toggle="modal" data-target="#edit_contact" data-id="<%=contacts[i].id%>" data-firstn="<%=contacts[i].first_name%>" data-lastn="<%=contacts[i].last_name%>" data-phone="<%=contacts[i].phone%>" data-email="<%=contacts[i].email%>">Edit</button>
+                                <button class="btn btn-warning edit_contact" data-toggle="modal" data-target="#edit_contact" data-id="<%=contacts[i].id%>"
+                                    data-firstn="<%=contacts[i].first_name%>" data-lastn="<%=contacts[i].last_name%>" data-phone="<%=contacts[i].phone%>"
+                                    data-email="<%=contacts[i].email%>">Edit</button>
                                 <button class="btn btn-danger delete_contact" data-toggle="modal" data-target="#delete_contact" data-id="<%=contacts[i].id%>">Delete</button>
                             </span>
                         </li>
-                    <%}%>
+                        <%}%>
                 </div>
             </div>
         </div>
@@ -80,19 +86,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="edit_firstn">Firstname:</label>
-                            <input type="text" name="edit_firstn" id="edit_firstn" class="form-control" placeholder="firstname" required/> 
+                            <input type="text" name="edit_firstn" id="edit_firstn" class="form-control" placeholder="firstname" required/>
                         </div>
                         <div class="form-group">
                             <label for="edit_lastn">Lastname:</label>
-                            <input type="text" name="edit_lastn" id="edit_lastn" class="form-control" placeholder="lastname" required/> 
+                            <input type="text" name="edit_lastn" id="edit_lastn" class="form-control" placeholder="lastname" required/>
                         </div>
                         <div class="form-group">
                             <label for="edit_phone">Phone:</label>
-                            <input type="text" name="edit_phone" id="edit_phone" class="form-control" placeholder="phone" required/> 
+                            <input type="text" name="edit_phone" id="edit_phone" class="form-control" placeholder="phone" required/>
                         </div>
                         <div class="form-group">
                             <label for="edit_email">Email:</label>
-                            <input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="email" required/> 
+                            <input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="email" required/>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -124,49 +130,13 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="add_contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/contacts" method="POST" id="add">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="first_name">Firstname:</label>
-                            <input type="text" name="first_name" id="first_name" class="form-control" placeholder="firstname" required/> 
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name">Lastname:</label>
-                            <input type="text" name="last_name" id="last_name" class="form-control" placeholder="lastname" required/> 
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone:</label>
-                            <input type="text" name="phone" id="phone" class="form-control" placeholder="phone" required/> 
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="email" required/> 
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary check_phone_create">Save</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <script src="/jquery/jquery.slim.min.js"></script>
     <script src="/popper.js/popper.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('.check_phone_create').click(function() {
-                if($('#phone').val().length === 10) {
+        $(document).ready(function () {
+            $('.check_phone_edit').click(function () {
+                if ($('#edit_phone').val().length === 10) {
                     return true;
                 }
                 else {
@@ -174,22 +144,10 @@
                     return false;
                 }
             });
-            $('.check_phone_edit').click(function() {
-                if($('#edit_phone').val().length === 10) {
-                    return true;
-                }
-                else {
-                    confirm('You must to put the phone number correctly.');
-                    return false;
-                }
-            });
-            $('.modal').on('hide.bs.modal', function (e) {
-                $('#add')[0].reset();
-            })
-            $('.delete_contact').click(function() {
+            $('.delete_contact').click(function () {
                 $('#delete').attr('action', '/contacts/' + $(this).data('id'));
             });
-            $('.edit_contact').click(function() {
+            $('.edit_contact').click(function () {
                 $('#edit').attr('action', '/contacts/' + $(this).data('id'));
                 $('#edit_firstn').val($(this).data('firstn'));
                 $('#edit_lastn').val($(this).data('lastn'));
